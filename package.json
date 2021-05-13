@@ -1,0 +1,23 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "<img src=\"video.gif\" width=\"600px\" height=\"400px\" /> Typing Attack Game.",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^8.1.1",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:watch": "webpack serve",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC"
+}
