@@ -18,7 +18,7 @@ export default class EnemyManager extends Renderer {
     }
 
     findEnemyByLetter(letter) {
-        return this.enemies.find(enemy => enemy.y >= 0 && enemy.text[0] === letter);
+        return this.enemies.find(enemy =>  (enemy.y + enemy.height + 15) >= 0 && enemy.text[0] === letter);
     }
 
     getCurrentEnemy() {
@@ -59,10 +59,14 @@ export default class EnemyManager extends Renderer {
     }
 
     removeEnemy(enemy) {
+        if(enemy === this.currentEnemy) {
+            this.removeCurrentEnemy();
+        }
         this.enemies = this.enemies.filter(item => item !== enemy);
     }
 
     draw() {
+        // console.log(this.enemies.length)
         for(let i = 0; i < this.enemies.length; i++) {
             this.enemies[i].draw();
           }

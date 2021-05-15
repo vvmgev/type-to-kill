@@ -1,3 +1,4 @@
+import '../assets/style/style.css';
 import {canvas, context} from './canvas';
 import Game from './game'
 

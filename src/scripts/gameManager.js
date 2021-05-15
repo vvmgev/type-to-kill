@@ -28,13 +28,29 @@ export default class GameManager {
         this.actions.gameOver();
     }
 
+    onPauseGame() {
+      cancelAnimationFrame(this.requestAnimationFrameId);
+    }
+
+    continueGame() {
+      this.animate();
+    }
+
+    windowFocus() {
+      document.addEventListener("focusout", () => {
+        console.log('visibilitychange')
+      });
+    }
+
     registerListener() {
+        this.windowFocus();
+
         window.addEventListener("keydown", event => {
 
           this.enemyManger.setEnemy(event.key);
           const currentEnemy = this.enemyManger.getCurrentEnemy();
 
-
+          
           if (!this.enemyManger.isEmpty() && currentEnemy?.text[0] === event.key) {
             const isLastLetter = currentEnemy.text.length === 1;
             let word = currentEnemy.text[0];
@@ -43,6 +59,7 @@ export default class GameManager {
             this.hero.fire(currentEnemy, () => {
                 if(isLastLetter) {
                   this.enemyManger.removeEnemy(currentEnemy);
+                  scr++
                 }
             });
         
@@ -96,7 +113,5 @@ export default class GameManager {
         this.requestAnimationFrameId = window.requestAnimationFrameId = requestAnimationFrame(this.animate);
         this.draw();
         this.update();
-     
       }
-   
 }

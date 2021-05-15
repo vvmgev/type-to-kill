@@ -4,16 +4,16 @@ import LevelManager from './level/levelManager';
 export default class Game {
   constructor(context, canvas) {
     this.levelManager = new LevelManager(1)
-    this.game = new GameManager(context, canvas, {levelPassed: this.levelPassed, gameOver: this.gameOver});
+    this.gameManager = new GameManager(context, canvas, {levelPassed: this.levelPassed, gameOver: this.gameOver});
   }
 
   startLevel() {
-      this.game.createEnemies(this.levelManager.getLevel());
+      this.gameManager.createEnemies(this.levelManager.getLevel());
   }
 
   start = () => {
-    this.startLevel(this.levelManager.getLevel());
-    this.game.animate();
+    this.startLevel();
+    this.gameManager.animate();
   }
 
   gameOver = () => {
@@ -26,6 +26,7 @@ export default class Game {
   }
 
   levelPassed = () => {
-    this.startLevel(this.levelManager.levelPassed());
+    this.levelManager.levelPassed();
+    this.startLevel();
   }
 }
