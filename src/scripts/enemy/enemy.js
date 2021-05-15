@@ -3,7 +3,9 @@ let selectColor = ["#DB291D",'#F85F68','#77B1AD','#F0B99A','#E1CF79','#F5998E','
 let y = -10;
 let i = 0;
 export default class Enamy {
-    constructor(text) {
+    constructor(text, canvas, context) {
+        this.canvas = canvas;
+        this.context = context;
         this.x = Math.round(Math.random()*(window.innerWidth-60)+30);
         this.y = y = y - 50;
         this.radius = 30;
@@ -12,7 +14,8 @@ export default class Enamy {
         this.text = text;
     }
 
-    draw(context) {
+    draw() {
+        const { context } = this;
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
         context.fillStyle=this.color;

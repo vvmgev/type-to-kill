@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "<img src=\"video.gif\" width=\"600px\" height=\"400px\" /> Typing Attack Game.",
   "main": "index.js",
-  "dependencies": {
-    "typescript": "^4.2.4"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^8.1.1",
     "html-webpack-plugin": "^5.3.1",
     "webpack": "^5.37.0",

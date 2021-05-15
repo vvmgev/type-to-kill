@@ -1,9 +1,11 @@
-import { intersect } from './helper';
+import Renderer from './renderer';
+import { intersect } from './util/helper';
 
 
-export default class Hero {
+export default class Hero extends Renderer {
     bullets = [];
     constructor() {
+        super()
         this.settings = {
             image: this.createHeroImage(),
             width : 50,
@@ -28,7 +30,8 @@ export default class Hero {
         return this.createImage('./assets/images/bullet.png');
     }
 
-    drawHero(context) {
+    drawHero() {
+        const {context} = this; 
         context.save()
         context.translate(this.settings.x - 25, this.settings.y - 50)
         context.rotate(-this.settings.angle*Math.PI/180)
@@ -36,8 +39,8 @@ export default class Hero {
         context.restore()
     }
 
-    draw(context) {
-        this.context = context;
+    draw() {
+        const { context } = this;
         this.drawHero(context)
         this.bullets.forEach(({image, x , y, width, height}) => {
             // context.save()
@@ -63,22 +66,20 @@ export default class Hero {
     }
 
 
-    update(context) {
+    update() {
+        const { context } = this;
         this.drawHero(context)
         this.bullets.forEach(bullet => {
             this.updateBulletPosition(bullet);
             if(intersect(bullet, bullet.target) < 4) {
                 bullet.delete = true;
-                if(bullet.isLastBullet) {
-                    bullet.target.delete = true;
-                    bullet.fireCallback();
-                }
+                bullet.fireCallback();
             }
         })
         this.bullets = this.bullets.filter(bullet => !bullet.delete);
     }
 
-    createBullet(target, isLastBullet, fireCallback) {
+    createBullet(target, fireCallback) {
         return {
             image: this.createBulletImage(),
             x: this.settings.x,
@@ -88,7 +89,6 @@ export default class Hero {
             xDelta : 10,
             yDelta : 10,
             target,
-            isLastBullet,
             fireCallback,
         }
     }
@@ -100,8 +100,8 @@ export default class Hero {
         this.settings.angle = (90 - angle) * (x > this.settings.x ? -1 : 1);
     }
 
-    fire(target, isLastBullet, fireCallback) {
+    fire(target, fireCallback) {
         this.rotate(target.x, target.y)
-        this.bullets.push(this.createBullet(target, isLastBullet, fireCallback));
+        this.bullets.push(this.createBullet(target, fireCallback));
     }
 }

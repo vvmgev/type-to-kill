@@ -1,7 +1,5 @@
 import {canvas, context} from './canvas';
-import LevelManager from './levelManager'
+import Game from './game'
 
-
-
-const levelManager = new LevelManager(context, canvas)
-levelManager.startGame();
+const game = new Game(context, canvas)
+game.start();

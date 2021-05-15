@@ -12,14 +12,25 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000,
+    hot: true,
   },
   devtool: "eval-source-map",
   plugins: [
-   new CopyPlugin({
-    patterns: [
-      { from: path.join(__dirname, 'src/assets'), to: path.join(__dirname, 'dist/assets') },
-      { from: path.join(__dirname, 'index.html'), to: path.join(__dirname, 'dist/index.html') },
-    ],
-  }),
-  ]
+    new CopyPlugin({
+      patterns: [
+        { from: path.join(__dirname, 'src/assets'), to: path.join(__dirname, 'dist/assets') },
+        { from: path.join(__dirname, 'index.html'), to: path.join(__dirname, 'dist/index.html') },
+      ],
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      }
+    ]
+  }
+  
 };
