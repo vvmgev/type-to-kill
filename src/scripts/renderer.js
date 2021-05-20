@@ -1,4 +1,4 @@
-import { canvas, context } from './canvas';
+import { context } from './canvas';
 export const rendererFunctions = {
     draw: [],
     update: [],
@@ -14,7 +14,6 @@ export default class Renderer {
             this.update = this.update.bind(this);
             rendererFunctions.update.push(this.update);
         }
-        this.canvas = canvas;
         this.context = context;
     }
 
@@ -27,5 +26,4 @@ export default class Renderer {
         }
     }
 }
-Renderer.canvas = canvas;
-Renderer.context = context; 
+Renderer.context = context;

@@ -1,8 +1,7 @@
 export default class Star {
     speed = 2;
     extinction = 4;
-    constructor(canvas, context) {
-        this.canvas = canvas;
+    constructor(context) {
         this.context = context;
         this.screen = {
             w: window.innerWidth,
@@ -10,19 +9,19 @@ export default class Star {
             c: [ window.innerWidth * 0.5, window.innerHeight * 0.5]
         };
         
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.z = Math.random() * canvas.width;
+        this.x = Math.random() * context.canvas.width;
+        this.y = Math.random() * context.canvas.height;
+        this.z = Math.random() * context.canvas.width;
     }
 
     draw() {
-        const {canvas, context} = this;
+        const {context} = this;
         let x, y, rad, opacity;
-        x = (this.x - this.screen.c[0]) * (canvas.width / this.z);
+        x = (this.x - this.screen.c[0]) * (context.canvas.width / this.z);
         x = x + this.screen.c[0];
-        y = (this.y - this.screen.c[1]) * (canvas.width / this.z);
+        y = (this.y - this.screen.c[1]) * (context.canvas.width / this.z);
         y = y + this.screen.c[1];
-        rad = canvas.width / this.z;
+        rad = context.canvas.width / this.z;
         opacity = (rad > this.extinction) ? 1.5 * (2 - rad / this.extinction) : 1;
   
         context.beginPath();
@@ -36,7 +35,7 @@ export default class Star {
     update() {
         this.z -= this.speed;
         if (this.z <= 0) {
-            this.z = this.canvas.width;
+            this.z = this.context.canvas.width;
         }
       }
 }

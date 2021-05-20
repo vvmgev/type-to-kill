@@ -4,6 +4,7 @@ import Enemy from './enemy';
 const MAX = 2;
 
 export default class EnemyManager extends Renderer {
+    enemyY = -10;
     currentEnemy;
     enemies = [];
     fail = 0;
@@ -55,7 +56,11 @@ export default class EnemyManager extends Renderer {
 
     create(words) {
         this.enemies = [];
-        words.forEach(word => this.enemies.push(new Enemy(word, this.canvas, this.context)))
+        this.enemyY = -10
+        words.forEach(word => {
+            this.enemyY -=  50
+            this.enemies.push(new Enemy(word, this.context, {y : this.enemyY}))
+        });
     }
 
     removeEnemy(enemy) {
@@ -66,7 +71,6 @@ export default class EnemyManager extends Renderer {
     }
 
     draw() {
-        // console.log(this.enemies.length)
         for(let i = 0; i < this.enemies.length; i++) {
             this.enemies[i].draw();
           }
@@ -75,7 +79,7 @@ export default class EnemyManager extends Renderer {
     update() {
         this.enemies.forEach(enemy => {
             enemy.update();
-            if ((enemy.y - 50) >= this.canvas.height) {
+            if ((enemy.y - 50) >= this.context.canvas.height) {
                 this.removeEnemy(enemy)
                 if(++this.fail === MAX) {
                     this.actions.gameOver()

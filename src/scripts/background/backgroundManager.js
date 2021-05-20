@@ -11,7 +11,7 @@ export default class BackgroundManager extends Renderer {
         super();
 
         for (let i = 0; i < STAR_COUNT; i++) {
-            this.starsElements[i] = new Star(this.canvas, this.context);
+            this.starsElements[i] = new Star(this.context);
         }
     }
 
@@ -22,5 +22,4 @@ export default class BackgroundManager extends Renderer {
     update() {
         this.starsElements.forEach(start => start.update());
     }
-
 }

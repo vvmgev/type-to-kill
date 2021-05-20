@@ -1,7 +1,6 @@
 import Renderer from './renderer';
 import { intersect } from './util/helper';
 
-
 export default class Hero extends Renderer {
     bullets = [];
     constructor() {
@@ -14,8 +13,12 @@ export default class Hero extends Renderer {
             y: window.innerHeight - 30,
             angle: 0
         };
+        this.fireAudio = this.createAudio('./assets/audio/fire.ogg');
+        this.hitAudio = this.createAudio('./assets/audio/hit.ogg');
+    }
 
-        this.muy  = this.createBulletImage();
+    createAudio(src) {
+        return new Audio(src);
     }
 
     createImage(src) {
@@ -65,7 +68,6 @@ export default class Hero extends Renderer {
         }
     }
 
-
     update() {
         const { context } = this;
         this.drawHero(context)
@@ -74,12 +76,11 @@ export default class Hero extends Renderer {
             bullet.angle = this.getRotateAngle(bullet.target, bullet);
             if(intersect(bullet, bullet.target)) {
                 bullet.delete = true;
+                this.playHitAudio();
                 bullet.fireCallback();
             }
         })
         this.bullets = this.bullets.filter(bullet => !bullet.delete);
-
-        
     }
 
     createBullet(target, fireCallback) {
@@ -89,8 +90,8 @@ export default class Hero extends Renderer {
             y: this.settings.y - this.settings.height - 10,
             width: 50,
             height: 50,
-            xDelta : 5,
-            yDelta : 5,
+            xDelta : 10,
+            yDelta : 10,
             angle: this.settings.angle,
             target,
             fireCallback,
@@ -101,11 +102,33 @@ export default class Hero extends Renderer {
         const xDistance = Math.abs(object.x - target.x);
         const yDistance = Math.abs(object.y - target.y);
         const angle = Math.atan(yDistance / xDistance) * (180 / Math.PI);
-        // return (90 - angle) * (target.x > object.x ? -1 : 1)
         return -Math.PI/180 * (90 - angle) * (target.x > object.x ? -1 : 1);
     }
 
+    playAudio(audio) {
+        audio.currentTime = 0;
+        audio.play();
+        
+        // if(audio.paused) {
+        //     audio.play()
+        // } else {
+        //     audio.currentTime = 0;
+        //     audio.pause();
+        //     this.playAudio(audio);
+        // }
+    }
+
+    playHitAudio() {
+        this.playAudio(this.hitAudio);
+    }
+
+    playFireAudio() {
+        this.playAudio(this.fireAudio)
+            
+    }
+
     fire(target, fireCallback) {
+        this.playFireAudio();
         this.settings.angle = this.getRotateAngle(target, this.settings)
         this.bullets.push(this.createBullet(target, fireCallback));
     }
